@@ -906,18 +906,20 @@ class JbuilderTest < ActiveSupport::TestCase
 
   test "doesn't throw an error if null is in separate block" do
     assert_nothing_raised  do
-      jbuild do |json|
+      result = jbuild do |json|
         json.authors do
           json.child! do
-            json.name "Gavin"
-          end
-
-          json.child! do
-            json.null!
-          end
-
-          json.child! do
             json.name "Roberto"
+            json.image do
+              json.null!
+            end
+          end
+
+          json.child! do
+            json.name "Gavin"
+            json.image do
+              json.type "png"
+            end
           end
         end
       end

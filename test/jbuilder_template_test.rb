@@ -258,6 +258,41 @@ class JbuilderTemplateTest < ActiveSupport::TestCase
     assert_equal "bar", result["foo"]
   end
 
+  test "null fragment caching" do
+    result = nil
+    image = Image.new(id: 1, type: "png")
+    template = <<-JBUILDER
+      json.authors do
+        json.child! do
+          json.cache! "gavin" do
+            json.name "Gavin"
+          end
+
+          json.cache! @image do
+            json.image do
+              json.type "png"
+            end
+          end
+        end
+
+        json.child! do
+          json.cache! "roberto" do
+            json.name "Roberto"
+          end
+          json.cache! @image do
+            json.image do
+              json.null!
+            end
+          end
+        end
+      end
+    JBUILDER
+
+    assert_nothing_raised do
+      result = render(template, image: image)
+    end
+  end
+
   test "cache instrumentation" do
     payloads = {}
 

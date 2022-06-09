@@ -33,4 +33,9 @@ class Racer < Struct.new(:id, :name)
   include ActiveModel::Conversion
 end
 
+class Image < Struct.new(:id, :type)
+  extend ActiveModel::Naming
+  include ActiveModel::Conversion
+end
+
 ActionView::Template.register_template_handler :jbuilder, JbuilderHandler
