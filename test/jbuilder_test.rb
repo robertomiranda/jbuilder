@@ -905,7 +905,7 @@ class JbuilderTest < ActiveSupport::TestCase
 
 
   test "doesn't throw an error if null is in separate block" do
-    refute_raise Jbuilder::NullError do
+    assert_nothing_raised  do
       jbuild do |json|
         json.authors do
           json.child! do
